@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 def loadData(filepath):
     """Load transaction data from a CSV file."""
@@ -61,6 +62,34 @@ def CompareMonths(dataFile, month1, month2):
         else:
             print(f"  {category}: Same amount in both months")
 
+def plotCategorySpending(dataFile):
+    """Bar chart: total spending per category."""
+    categoryTotals = dataFile.groupby("category")["value"].sum().sort_values(ascending=False)
+
+    plt.figure(figsize=(8, 5))
+    plt.bar(categoryTotals.index, categoryTotals.values, color = 'skyblue')
+    plt.title("Total Spending by Category")
+    plt.xlabel("Category")
+    plt.ylabel("Total Spending ($)")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig("category_spending.png")
+    plt.show()
+
+def plotMonthlySpending(dataFile):
+    """Line chart: spending trend over months."""
+    dataFile["month"] = dataFile["date"].dt.to_period("M").astype(str)
+    monthlyTotals = dataFile.groupby("month")["value"].sum()
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(monthlyTotals.index, monthlyTotals.values, marker = 'o', color = 'orange')
+    plt.title("Monthly Spending Trend")
+    plt.xlabel("Month")
+    plt.ylabel("Total Spending ($)")
+    plt.tight_layout()
+    plt.savefig("monthly_spending.png")
+    plt.show()
+
 
 if __name__ == "__main__":
     # Example usage
@@ -80,3 +109,6 @@ if __name__ == "__main__":
     print(topTransactions)
 
     CompareMonths(cleanedData, "2026-01", "2026-02")
+
+    """plotCategorySpending(cleanedData)"""
+    plotMonthlySpending(cleanedData)
