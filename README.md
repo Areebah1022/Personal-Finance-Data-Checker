@@ -17,7 +17,7 @@ A Python tool that loads, cleans, and analyzes personal transaction data from a 
 ![Category Spending](category_spending.png)
 
 ### Monthly Spending Trend
-![Monthly Trend](monthly_trend.png)
+![Monthly Trend](monthly_spending.png)
 
 ## Tech Stack
 
